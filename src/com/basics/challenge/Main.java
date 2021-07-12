@@ -7,20 +7,26 @@ public class Main {
     private static double mortgageFormula(long P, double r, int n) {
         /**
          * P: Principal in USD.
-         * r: interest in scala 0 to 1.
-         * n: 
+         * r: Interest in scala 0 to 1.
+         * n: Period in months.
+         * M: Mortgage payment per month.
          * */
-        return 0.1;
+
+        double M = P * (r * Math.pow(1+r, n) ) / (Math.pow(1+r, n) - 1);
+        return M;
     };
 
     public static void main(String[] args) {
 	// write your code here
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Principal: ");
+        System.out.print("Principal: ");
         long principal = scanner.nextLong();
-        System.out.println("Annual Interest Rate: ");
-        Double interest = scanner.nextDouble();
-        System.out.println("Period (Years): ");
-        int period = scanner.nextInt();
+        System.out.print("Annual Interest Rate: ");
+        double interest = scanner.nextDouble() / 100.0;
+        System.out.print("Period (Years): ");
+        int period = scanner.nextInt() * 12;
+
+        double result = mortgageFormula(principal, interest, period);
+        System.out.println("Mortgage: $" + result);
     }
 }
