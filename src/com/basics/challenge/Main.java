@@ -1,14 +1,16 @@
 package com.basics.challenge;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
 
-    private static double mortgageFormula(long P, double r, int n) {
+    private static double mortgageFormula(int P, float r, int n) {
         /**
          * P: Principal in USD.
-         * r: Interest in scala 0 to 1.
-         * n: Period in months.
+         * r: Monthly interest in percent.
+         * n: Number of payments.
          * M: Mortgage payment per month.
          * */
 
@@ -17,16 +19,25 @@ public class Main {
     };
 
     public static void main(String[] args) {
-	// write your code here
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Principal: ");
-        long principal = scanner.nextLong();
-        System.out.print("Annual Interest Rate: ");
-        double interest = scanner.nextDouble() / 100.0;
-        System.out.print("Period (Years): ");
-        int period = scanner.nextInt() * 12;
+	    final byte MONTHS_IN_YEAR = 12;
+	    final byte PERCENT = 100;
 
-        double result = mortgageFormula(principal, interest, period);
-        System.out.println("Mortgage: $" + result);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Principal: ");
+        int principal = scanner.nextInt();
+
+        System.out.print("Annual Interest Rate: ");
+        float annualInterest = scanner.nextFloat();
+        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
+
+        System.out.print("Period (Years): ");
+        byte periodInYears = scanner.nextByte();
+        int numberOfPayments = periodInYears * MONTHS_IN_YEAR;
+
+        double mortgage = mortgageFormula(principal, monthlyInterest, numberOfPayments);
+
+        String mortgageFormatted = NumberFormat.getCurrencyInstance(Locale.US).format(mortgage);
+        System.out.println("Mortgage: " + mortgageFormatted);
     }
 }
